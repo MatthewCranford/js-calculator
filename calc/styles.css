@@ -16,6 +16,9 @@ body {
 .calc-title {
 
   padding-top: 1rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #242424;
 
 }
 
@@ -24,7 +27,6 @@ body {
   margin-bottom: 1rem;
   border-radius: 10px;
   padding: 0 1rem;
-  
 }
 
   .primary-input {
@@ -32,8 +34,6 @@ body {
     text-align: end;
     padding: .7rem 0 0 0;
     font-size: 1.5rem;
-    
-  
   }
 
   .secondary-input {
@@ -41,4 +41,15 @@ body {
     text-align: end;
     padding: 0 0 .3rem 0;
     font-size: .7rem;
+  }
+  
+
+  .button {
+ 
+
+    background-color: rgb(41, 41, 41);
+    color: white;
+    padding: 10px 12px;
+    border-radius: 8px;
+    
   }
