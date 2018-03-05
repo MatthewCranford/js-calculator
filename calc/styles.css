@@ -1,0 +1,44 @@
+body {
+ 
+  text-align: center;
+  background-color: #494949
+}
+
+
+
+.calc-body {
+  background-color: #cacaca;
+  width: 300px;
+  height: 500px;
+  margin-top: 2rem;
+}
+
+.calc-title {
+
+  padding-top: 1rem;
+
+}
+
+.calc-display {
+  background-color: #f5eede7a;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  padding: 0 1rem;
+  
+}
+
+  .primary-input {
+    margin: 0;
+    text-align: end;
+    padding: .7rem 0 0 0;
+    font-size: 1.5rem;
+    
+  
+  }
+
+  .secondary-input {
+    margin: 0;
+    text-align: end;
+    padding: 0 0 .3rem 0;
+    font-size: .7rem;
+  }
