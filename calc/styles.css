@@ -53,12 +53,20 @@ body, html {
     background-color: rgb(41, 41, 41);
     color: white;
     border-radius: 8px;
-    padding: 20px 20px;
+  
+  
+
     /* margin: .5rem; */
     box-shadow: 0 0 0px 2px #1f1f1f;
+   
+ 
+   
+ 
     
     
   }
+
+  
 
   .button-equal {
   
@@ -68,7 +76,3 @@ body, html {
 
   }
 
-  .button-space {
-    padding: 0 10px;
- 
-  }
