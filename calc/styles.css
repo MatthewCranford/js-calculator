@@ -54,16 +54,21 @@ body, html {
     color: white;
     border-radius: 8px;
     padding: 20px 20px;
-    margin: .5rem;
+    /* margin: .5rem; */
     box-shadow: 0 0 0px 2px #1f1f1f;
     
     
   }
 
   .button-equal {
-   margin-left: -.5rem;
+  
   }
 
   .button-zero {
-   width: 9rem;
+
+  }
+
+  .button-space {
+    padding: 0 10px;
+ 
   }
