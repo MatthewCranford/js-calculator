@@ -31,6 +31,7 @@ body, html {
   margin-bottom: 2.5rem;
   border-radius: 10px;
   padding: 0 2rem;
+  overflow: hidden;
 }
 
   .primary-input {
@@ -80,7 +81,7 @@ body, html {
 
 /* // Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
-  
+
   .calc-body {
     width: 400px;
     height: auto;
