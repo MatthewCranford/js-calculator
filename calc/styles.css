@@ -80,6 +80,7 @@ body, html {
 
 /* // Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
+  
   .calc-body {
     width: 400px;
     height: auto;
@@ -87,14 +88,12 @@ body, html {
     top: 50%;
     padding-bottom: 55px;
     margin-top: 100px;
-
   }
 
  }
 
 /* // Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) { 
-
   
  }
 
