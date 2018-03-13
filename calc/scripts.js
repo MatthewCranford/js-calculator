@@ -22,19 +22,41 @@ $(function() {
   const $nine = $("#nine");
 
   function addInput(event) {
-    const val = event.currentTarget.innerHTML
+    const userVal = event.currentTarget.innerHTML
+    let calcArr = [];
     // console.log(event);
     // console.log(event.currentTarget.id)
-    if (val === "AC") {
+    if (userVal === "AC") {
       $primaryInput.text("0");
       $secondaryInput.text("0");
     }
-    else if (val === "CE") {
+    else if (userVal === "CE") {
       $primaryInput.text("0");
     }
+    else if (userVal === "+" || userVal === "-" || userVal === "×" || userVal === "÷") {
+      if ($primaryInput.text() !== "+" && $primaryInput.text() !== "-" && $primaryInput.text() !== "×" && $primaryInput.text() !== "÷") {
+        if ($primaryInput.text() !== "0") {
+          calcArr.push($primaryInput.text());
+        }
+        $primaryInput.text(userVal);
+        console.log(calcArr);
+      }
+      
+    }
     else {
-      $primaryInput.append(val);
-      $secondaryInput.append(val);
+      if ($primaryInput.text() === "0" || $primaryInput.text() === "+" || $primaryInput.text() === "-" || $primaryInput.text() === "×" || $primaryInput.text() === "÷") {
+        if ($primaryInput.text() !== "0") {
+          calcArr.push($primaryInput.text());
+        }
+        $primaryInput.text(userVal);
+        $secondaryInput.text(userVal);
+        console.log(calcArr);
+      }
+      else {
+        $primaryInput.append(userVal);
+        $secondaryInput.append(userVal);
+      }
+    
     }
     
  
