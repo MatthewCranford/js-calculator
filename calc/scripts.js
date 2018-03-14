@@ -21,9 +21,16 @@ $(function() {
   const $eight = $("#eight");
   const $nine = $("#nine");
 
+
+  let calcArr = [];
+  function calculate(arr) {
+    
+   console.log(arr);
+  }
+
   function addInput(event) {
     const userVal = event.currentTarget.innerHTML
-    let calcArr = [];
+   
     // console.log(event);
     // console.log(event.currentTarget.id)
     if (userVal === "AC") {
@@ -32,6 +39,10 @@ $(function() {
     }
     else if (userVal === "CE") {
       $primaryInput.text("0");
+    }
+    else if (userVal === "=") {
+      console.log("true");
+      calculate(calcArr);
     }
     else if (userVal === "+" || userVal === "-" || userVal === "×" || userVal === "÷") {
       if ($primaryInput.text() !== "+" && $primaryInput.text() !== "-" && $primaryInput.text() !== "×" && $primaryInput.text() !== "÷") {
