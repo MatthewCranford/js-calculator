@@ -30,38 +30,48 @@ $(function() {
 
   function addInput(event) {
     const userVal = event.currentTarget.innerHTML
-   
     // console.log(event);
     // console.log(event.currentTarget.id)
+
+    // clear calc
     if (userVal === "AC") {
       $primaryInput.text("0");
       $secondaryInput.text("0");
     }
+    // clear primary input
     else if (userVal === "CE") {
       $primaryInput.text("0");
     }
+    // calculate secondary input
     else if (userVal === "=") {
       console.log("true");
       calculate(calcArr);
     }
+
     else if (userVal === "+" || userVal === "-" || userVal === "×" || userVal === "÷") {
-      if ($primaryInput.text() !== "+" && $primaryInput.text() !== "-" && $primaryInput.text() !== "×" && $primaryInput.text() !== "÷") {
-        if ($primaryInput.text() !== "0") {
-          calcArr.push($primaryInput.text());
-        }
-        $primaryInput.text(userVal);
-        console.log(calcArr);
-      }
-      
+
+      if ($secondaryInput.text() !== "0") {
+        if ($primaryInput.text() !== "+" && $primaryInput.text() !== "-" && $primaryInput.text() !== "×" && $primaryInput.text() !== "÷") {
+          $primaryInput.text(userVal);
+          $secondaryInput.append(userVal);
+          console.log(calcArr);
+        } 
+      } 
     }
     else {
       if ($primaryInput.text() === "0" || $primaryInput.text() === "+" || $primaryInput.text() === "-" || $primaryInput.text() === "×" || $primaryInput.text() === "÷") {
         if ($primaryInput.text() !== "0") {
           calcArr.push($primaryInput.text());
         }
-        $primaryInput.text(userVal);
-        $secondaryInput.text(userVal);
-        console.log(calcArr);
+        else if ($secondaryInput.text() !== "0") {
+          $primaryInput.text(userVal);
+          $secondaryInput.append(userVal);
+          console.log(calcArr);
+        }
+        else {
+          $primaryInput.text(userVal);
+          $secondaryInput.text(userVal);
+        }   
       }
       else {
         $primaryInput.append(userVal);
