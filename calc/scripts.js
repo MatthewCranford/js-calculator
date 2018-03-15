@@ -36,7 +36,8 @@ $(function() {
     // clear calc
     if (userVal === "AC") {
       $primaryInput.text("0");
-      $secondaryInput.text("0");
+      $secondaryInput.text("0")
+      calcArr = [];
     }
     // clear primary input
     else if (userVal === "CE") {
@@ -54,20 +55,15 @@ $(function() {
         // check that an operator isn't already active
         if ($primaryInput.text() !== "+" && $primaryInput.text() !== "-" && $primaryInput.text() !== "×" && $primaryInput.text() !== "÷") {
           $primaryInput.text(userVal);
-          $secondaryInput.append(userVal);
-          console.log(calcArr);
+          calcArr.push(userVal);
         } 
       } 
     }
     else {
       if ($primaryInput.text() === "0" || $primaryInput.text() === "+" || $primaryInput.text() === "-" || $primaryInput.text() === "×" || $primaryInput.text() === "÷") {
-        if ($primaryInput.text() !== "0") {
-          calcArr.push($primaryInput.text());
-        }
-        else if ($secondaryInput.text() !== "0") {
+        if ($secondaryInput.text() !== "0") {
           $primaryInput.text(userVal);
-          $secondaryInput.append(userVal);
-          console.log(calcArr);
+          calcArr.push(userVal);
         }
         else {
           $primaryInput.text(userVal);
@@ -76,23 +72,17 @@ $(function() {
       }
       else {
         $primaryInput.append(userVal);
-        $secondaryInput.append(userVal);
+        calcArr.push(userVal);
       }
     
     }
+    console.log(calcArr)
+    $secondaryInput.text(calcArr.join(''));
     
  
   }
 
-//   $ac.click("click", function() {
-//      $primaryInput.text("Ø");
-//      $secondaryInput.text("Ø");
-//   });
-
-//   $ce.click("click", function() {
-//     $primaryInput.text("Ø");
-//  });
-
+  
   $(".button").click("click", addInput);
 
   
