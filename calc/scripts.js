@@ -47,10 +47,11 @@ $(function() {
       console.log("true");
       calculate(calcArr);
     }
-
+    // handle all operator inputs
     else if (userVal === "+" || userVal === "-" || userVal === "×" || userVal === "÷") {
-
+      // check that number was passed first
       if ($secondaryInput.text() !== "0") {
+        // check that an operator isn't already active
         if ($primaryInput.text() !== "+" && $primaryInput.text() !== "-" && $primaryInput.text() !== "×" && $primaryInput.text() !== "÷") {
           $primaryInput.text(userVal);
           $secondaryInput.append(userVal);
