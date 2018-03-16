@@ -22,10 +22,24 @@ $(function() {
   const $nine = $("#nine");
 
 
+  // holds numbers for calculation
   let calcArr = [];
-  function calculate(arr) {
-    
-   console.log(arr);
+
+  
+  function calculate(calcArr) {
+    let calculation = parseInt(calcArr.join(''));
+    console.log(calculation);
+  
+  }
+
+  // removes last entries made to secondary input
+  function clearEntry() {
+    for(let i = calcArr.length -1; i>=0; i--) {
+      if(calcArr[i] === "+" || calcArr[i] === "-" || calcArr[i] === "×" || calcArr[i] === "÷") {
+        break;
+      }
+      calcArr.pop();
+    }
   }
 
   function addInput(event) {
@@ -42,6 +56,7 @@ $(function() {
     // clear primary input
     else if (userVal === "CE") {
       $primaryInput.text("0");
+      clearEntry()
     }
     // calculate secondary input
     else if (userVal === "=") {
@@ -55,44 +70,43 @@ $(function() {
         // check that an operator isn't already active
         if ($primaryInput.text() !== "+" && $primaryInput.text() !== "-" && $primaryInput.text() !== "×" && $primaryInput.text() !== "÷") {
           $primaryInput.text(userVal);
+          $secondaryInput.append(userVal);
           calcArr.push(userVal);
         } 
       } 
     }
+    // handle all number inputs
     else {
-      if ($primaryInput.text() === "0" || $primaryInput.text() === "+" || $primaryInput.text() === "-" || $primaryInput.text() === "×" || $primaryInput.text() === "÷") {
-        if ($secondaryInput.text() !== "0") {
+      // if operator is being used
+      if ($primaryInput.text() === "+" || $primaryInput.text() === "-" || $primaryInput.text() === "×" || $primaryInput.text() === "÷") {
           $primaryInput.text(userVal);
+          $secondaryInput.append(userVal);
+          calcArr.push(userVal);
+      }
+      else if ($primaryInput.text() === "0") {
+        // check if anything is stored in secondary input
+        if ($secondaryInput.text() === "0") {
+          $primaryInput.text(userVal);
+          $secondaryInput.text(userVal);
           calcArr.push(userVal);
         }
         else {
           $primaryInput.text(userVal);
-          $secondaryInput.text(userVal);
-        }   
+          $secondaryInput.append(userVal);
+          calcArr.push(userVal);
+        }
       }
       else {
         $primaryInput.append(userVal);
+        $secondaryInput.append(userVal);
         calcArr.push(userVal);
-      }
-    
+      } 
     }
     console.log(calcArr)
-    $secondaryInput.text(calcArr.join(''));
-    
  
   }
 
   
   $(".button").click("click", addInput);
-
-  
- 
-
- 
-
-
-
-
-
 
 });
