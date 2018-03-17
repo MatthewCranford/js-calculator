@@ -27,8 +27,27 @@ $(function() {
 
   
   function calculate(calcArr) {
-    let calculation = parseInt(calcArr.join(''));
+   
+    for(let i=0; i<calcArr.length; i++) {
+      // console.log(calcArr[i]);
+      let input = calcArr[i];
+      if (input === "×") {
+        calcArr[i] = "*";
+      }
+      else if (input === "÷") {
+        calcArr[i] = "/"
+      }
+      
+      
+    }
+    let calculation = eval(calcArr.join(''));
     console.log(calculation);
+    console.log(eval(calculation));
+    return calculation;
+    // let newCalc = calculation.split(re);
+    // console.log(newCalc);
+    
+    
   
   }
 
@@ -58,20 +77,24 @@ $(function() {
       $primaryInput.text("0");
       clearEntry()
     }
-    // calculate secondary input
-    else if (userVal === "=") {
-      console.log("true");
-      calculate(calcArr);
-    }
     // handle all operator inputs
-    else if (userVal === "+" || userVal === "-" || userVal === "×" || userVal === "÷") {
+    else if (userVal === "+" || userVal === "-" || userVal === "×" || userVal === "÷" || userVal === "=") {
       // check that number was passed first
       if ($secondaryInput.text() !== "0") {
         // check that an operator isn't already active
         if ($primaryInput.text() !== "+" && $primaryInput.text() !== "-" && $primaryInput.text() !== "×" && $primaryInput.text() !== "÷") {
-          $primaryInput.text(userVal);
-          $secondaryInput.append(userVal);
-          calcArr.push(userVal);
+          if(userVal === "=") {
+            let total = calculate(calcArr);
+            $primaryInput.text(total);
+            $secondaryInput.append(userVal+total)
+
+          }
+          else {
+            $primaryInput.text(userVal);
+            $secondaryInput.append(userVal);
+            calcArr.push(userVal);
+          }
+         
         } 
       } 
     }
