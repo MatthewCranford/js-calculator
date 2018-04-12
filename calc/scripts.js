@@ -62,31 +62,43 @@ $(function() {
   }
 
   function addInput(event) {
-    const userVal = event.currentTarget.innerHTML
-    // console.log(event);
-    // console.log(event.currentTarget.id)
 
+    const userVal = event.currentTarget.innerHTML
+	
     // clear calc
     if (userVal === "AC") {
       $primaryInput.text("0");
       $secondaryInput.text("0")
       calcArr = [];
-    }
+		}
     // clear primary input
     else if (userVal === "CE") {
       $primaryInput.text("0");
       clearEntry()
     }
-    // handle all operator inputs
+    // operator inputs
     else if (userVal === "+" || userVal === "-" || userVal === "×" || userVal === "÷" || userVal === "=") {
+
+			if ($secondaryInput.text().includes("=")) {
+
+				if (userVal === "=") {
+					return false;
+				}
+				$primaryInput.text(userVal);
+				$secondaryInput.text(calcArr[-1]);
+			}
+			
+			
       // check that number was passed first
-      if ($secondaryInput.text() !== "0") {
+      else if ($secondaryInput.text() !== "0") {
+
         // check that an operator isn't already active
         if ($primaryInput.text() !== "+" && $primaryInput.text() !== "-" && $primaryInput.text() !== "×" && $primaryInput.text() !== "÷") {
           if(userVal === "=") {
             let total = calculate(calcArr);
             $primaryInput.text(total);
-            $secondaryInput.append(userVal+total)
+						$secondaryInput.append(userVal+total);
+						calcArr = [total.toString()];
 
           }
           else {
@@ -97,16 +109,28 @@ $(function() {
          
         } 
       } 
-    }
+		}
+		
     // handle all number inputs
     else {
+
+			if ($secondaryInput.text().includes("=")) {
+
+				$primaryInput.text(userVal);
+				$secondaryInput.text(userVal)
+				calcArr = [userVal];
+
+			}
+
+
       // if operator is being used
-      if ($primaryInput.text() === "+" || $primaryInput.text() === "-" || $primaryInput.text() === "×" || $primaryInput.text() === "÷") {
+      else if ($primaryInput.text() === "+" || $primaryInput.text() === "-" || $primaryInput.text() === "×" || $primaryInput.text() === "÷") {
           $primaryInput.text(userVal);
           $secondaryInput.append(userVal);
           calcArr.push(userVal);
       }
       else if ($primaryInput.text() === "0") {
+
         // check if anything is stored in secondary input
         if ($secondaryInput.text() === "0") {
           $primaryInput.text(userVal);
