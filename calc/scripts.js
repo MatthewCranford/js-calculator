@@ -41,22 +41,8 @@ $(function() {
 				return input;
 			}
 		});
-	
-
-    // for(let i=0; i<CALC_ARR.length; i++) {
-    //   // console.log(CALC_ARR[i]);
-    //   let input = CALC_ARR[i];
-      
-    // }
-    let calculation = eval(formattedArr.join(''));
-    console.log(calculation);
-    console.log(eval(calculation));
-    return calculation;
-    // let newCalc = calculation.split(re);
-    // console.log(newCalc);
-    
-    
-  
+    console.log(eval(formattedArr.join('')));
+    return eval(formattedArr.join(''));
   }
 
   // removes last entries made to secondary input
