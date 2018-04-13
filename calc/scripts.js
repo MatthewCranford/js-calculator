@@ -1,5 +1,6 @@
 $(function() {
 
+	// jQuery selectors
   const $primaryInput = $('#primary-input');
   const $secondaryInput = $('#secondary-input');
   const $ac = $('#ac');
@@ -22,25 +23,32 @@ $(function() {
   const $nine = $('#nine');
 
 
-  // holds numbers for calculation
-  let calcArr = [];
+  // global holds numbers for calculation
+  let CALC_ARR = [];
 
-  
-  function calculate(calcArr) {
-   
-    for(let i=0; i<calcArr.length; i++) {
-      // console.log(calcArr[i]);
-      let input = calcArr[i];
-      if (input === '×') {
-        calcArr[i] = '*';
+	
+	// calculate contents of global CALC_ARR
+  function calculate(CALC_ARR) {
+	 
+		const formattedArr = CALC_ARR.map( (input) => {
+			if (input === '×') {
+        return '*';
       }
       else if (input === '÷') {
-        calcArr[i] = '/'
-      }
+        return '/';
+			} 
+			else {
+				return input;
+			}
+		});
+	
+
+    // for(let i=0; i<CALC_ARR.length; i++) {
+    //   // console.log(CALC_ARR[i]);
+    //   let input = CALC_ARR[i];
       
-      
-    }
-    let calculation = eval(calcArr.join(''));
+    // }
+    let calculation = eval(formattedArr.join(''));
     console.log(calculation);
     console.log(eval(calculation));
     return calculation;
@@ -53,11 +61,11 @@ $(function() {
 
   // removes last entries made to secondary input
   function clearEntry() {
-    for(let i = calcArr.length -1; i>=0; i--) {
-      if(calcArr[i] === '+' || calcArr[i] === '-' || calcArr[i] === '×' || calcArr[i] === '÷') {
+    for(let i = CALC_ARR.length -1; i>=0; i--) {
+      if(CALC_ARR[i] === '+' || CALC_ARR[i] === '-' || CALC_ARR[i] === '×' || CALC_ARR[i] === '÷') {
         break;
       }
-      calcArr.pop();
+      CALC_ARR.pop();
     }
   }
 
@@ -69,7 +77,7 @@ $(function() {
     if (userVal === 'AC') {
       $primaryInput.text('0');
       $secondaryInput.text('0')
-      calcArr = [];
+      CALC_ARR = [];
 		}
     // clear primary input
     else if (userVal === 'CE') {
@@ -85,7 +93,7 @@ $(function() {
 					return false;
 				}
 				$primaryInput.text(userVal);
-				$secondaryInput.text(calcArr[-1]);
+				$secondaryInput.text(CALC_ARR[-1]);
 			}
 			
 			
@@ -95,16 +103,16 @@ $(function() {
         // check that an operator isn't already active
         if ($primaryInput.text() !== '+' && $primaryInput.text() !== '-' && $primaryInput.text() !== '×' && $primaryInput.text() !== '÷') {
           if(userVal === '=') {
-            let total = calculate(calcArr);
+            let total = calculate(CALC_ARR);
             $primaryInput.text(total);
 						$secondaryInput.append(userVal+total);
-						calcArr = [total.toString()];
+						CALC_ARR = [total.toString()];
 
           }
           else {
             $primaryInput.text(userVal);
             $secondaryInput.append(userVal);
-            calcArr.push(userVal);
+            CALC_ARR.push(userVal);
           }
          
         } 
@@ -118,7 +126,7 @@ $(function() {
 
 				$primaryInput.text(userVal);
 				$secondaryInput.text(userVal)
-				calcArr = [userVal];
+				CALC_ARR = [userVal];
 
 			}
 
@@ -127,7 +135,7 @@ $(function() {
       else if ($primaryInput.text() === '+' || $primaryInput.text() === '-' || $primaryInput.text() === '×' || $primaryInput.text() === '÷') {
           $primaryInput.text(userVal);
           $secondaryInput.append(userVal);
-          calcArr.push(userVal);
+          CALC_ARR.push(userVal);
       }
       else if ($primaryInput.text() === '0') {
 
@@ -135,21 +143,21 @@ $(function() {
         if ($secondaryInput.text() === '0') {
           $primaryInput.text(userVal);
           $secondaryInput.text(userVal);
-          calcArr.push(userVal);
+          CALC_ARR.push(userVal);
         }
         else {
           $primaryInput.text(userVal);
           $secondaryInput.append(userVal);
-          calcArr.push(userVal);
+          CALC_ARR.push(userVal);
         }
       }
       else {
         $primaryInput.append(userVal);
         $secondaryInput.append(userVal);
-        calcArr.push(userVal);
+        CALC_ARR.push(userVal);
       } 
     }
-    console.log(calcArr)
+    console.log(CALC_ARR)
  
   }
 
