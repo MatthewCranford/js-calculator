@@ -47,8 +47,15 @@ $(function() {
 
   // removes last entries made to secondary input
   function clearEntry() {
+
     for(let i = CALC_ARR.length -1; i>=0; i--) {
-      if(CALC_ARR[i] === '+' || CALC_ARR[i] === '-' || CALC_ARR[i] === '×' || CALC_ARR[i] === '÷') {
+
+      if(
+				CALC_ARR[i] === '+' 
+				|| CALC_ARR[i] === '-' 
+				|| CALC_ARR[i] === '×' 
+				|| CALC_ARR[i] === '÷'
+			) {
         break;
       }
       CALC_ARR.pop();
