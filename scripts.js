@@ -41,8 +41,20 @@ $(function() {
 				return input;
 			}
 		});
-    console.log(eval(formattedArr.join('')));
-    return eval(formattedArr.join(''));
+		
+
+		if (
+			formattedArr[formattedArr.length-1] !== '+'
+			&& formattedArr[formattedArr.length-1] !== '-'
+			&& formattedArr[formattedArr.length-1] !== '*'
+			&& formattedArr[formattedArr.length-1] !== '/'
+		 ) {
+			console.log(formattedArr[formattedArr.length-1])
+			console.log(eval(formattedArr.join('')));
+			return eval(formattedArr.join(''));
+		 }
+		 return false;
+    
   }
 
 
@@ -91,7 +103,7 @@ $(function() {
       CALC_ARR = [];
 		}
 
-    // clear primary input
+    // clear last entry
     else if (userVal === 'CE') {
 
 			if (
@@ -124,6 +136,11 @@ $(function() {
 			}
 			
 		}
+
+		else if ( userVal === '.') {
+			$primaryInput.prepend(userVal);
+			CALC_ARR.splice(-1,1, $primaryInput.text());
+		}
 		
     // operator inputs
     else if (
@@ -147,25 +164,42 @@ $(function() {
       else if ($secondaryInput.text() !== '0') {
 
         // check that an operator isn't already active
-        if ($primaryInput.text() !== '+' && $primaryInput.text() !== '-' && $primaryInput.text() !== '×' && $primaryInput.text() !== '÷') {
+        if (
+					$primaryInput.text() !== '+' 
+					&& $primaryInput.text() !== '-'
+					&& $primaryInput.text() !== '×' 
+					&& $primaryInput.text() !== '÷'
+				) {
+					console.log(CALC_ARR[CALC_ARR.length-1])
           if(userVal === '=') {
-            let total = calculate(CALC_ARR);
-            $primaryInput.text(total);
-						$secondaryInput.append(userVal+total);
-						CALC_ARR = [total.toString()];
+
+						const total = calculate(CALC_ARR)
+
+						console.log('total',total);
+						if (total) {
+							$primaryInput.text(total);
+							$secondaryInput.append(userVal+total);
+							CALC_ARR = [total.toString()];
+						}
+						else {
+							console.log('false');
+						}
+					
+						
+            
           }
-          else {
+          else if (
+						CALC_ARR[CALC_ARR.length-1] !== '+' 
+						&& CALC_ARR[CALC_ARR.length-1] !== '-'
+						&& CALC_ARR[CALC_ARR.length-1] !== '×' 
+						&& CALC_ARR[CALC_ARR.length-1] !== '÷'
+					) {
             $primaryInput.text(userVal);
             $secondaryInput.append(userVal);
             CALC_ARR.push(userVal);
           }
         } 
       } 
-		}
-
-		else if ( userVal === '.') {
-			$primaryInput.prepend(userVal);
-			CALC_ARR.splice(-1,1, $primaryInput.text());
 		}
 		
     // number inputs
@@ -178,11 +212,17 @@ $(function() {
 			}
 
       // if operator is being used
-      else if ($primaryInput.text() === '+' || $primaryInput.text() === '-' || $primaryInput.text() === '×' || $primaryInput.text() === '÷') {
+      else if (
+				$primaryInput.text() === '+' 
+				|| $primaryInput.text() === '-' 
+				|| $primaryInput.text() === '×' 
+				|| $primaryInput.text() === '÷'
+			) {
           $primaryInput.text(userVal);
           $secondaryInput.append(userVal);
           CALC_ARR.push(userVal);
-      }
+			}
+			
       else if ($primaryInput.text() === '0') {
 
         // reset
@@ -199,30 +239,26 @@ $(function() {
 					|| $secondaryInput.text().includes('×')
 					|| $secondaryInput.text().includes('÷')
 				) {	
-					console.log('HEY!')
 					$primaryInput.text(userVal);
 					CALC_ARR.push(userVal);
-				
 				}
 				
         else {
-		
 					$primaryInput.text($secondaryInput.text()).append(userVal);
 					$secondaryInput.append(userVal)
           CALC_ARR.push(userVal);
         }
 			}
 			
-			
       else {
-		
         $primaryInput.append(userVal);
 				$secondaryInput.append(userVal)
         CALC_ARR.push(userVal);
       } 
-    }
+		}
+		
     console.log(CALC_ARR)
-  }
-
+	}
+	
   $('.button').click('click', addInput);
 });
