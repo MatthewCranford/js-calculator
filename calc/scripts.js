@@ -50,7 +50,7 @@ $(function() {
 
     for(let i = CALC_ARR.length -1; i>=0; i--) {
 
-      if(
+      if (
 				CALC_ARR[i] === '+' 
 				|| CALC_ARR[i] === '-' 
 				|| CALC_ARR[i] === '×' 
@@ -81,14 +81,13 @@ $(function() {
     else if (userVal === '+' || userVal === '-' || userVal === '×' || userVal === '÷' || userVal === '=') {
 
 			if ($secondaryInput.text().includes('=')) {
-
 				if (userVal === '=') {
 					return false;
 				}
 				$primaryInput.text(userVal);
-				$secondaryInput.text(CALC_ARR[-1]);
+				$secondaryInput.text(CALC_ARR).append(userVal);
+				CALC_ARR.push(userVal);
 			}
-			
 			
       // check that number was passed first
       else if ($secondaryInput.text() !== '0') {
@@ -100,29 +99,24 @@ $(function() {
             $primaryInput.text(total);
 						$secondaryInput.append(userVal+total);
 						CALC_ARR = [total.toString()];
-
           }
           else {
             $primaryInput.text(userVal);
             $secondaryInput.append(userVal);
             CALC_ARR.push(userVal);
           }
-         
         } 
       } 
 		}
 		
-    // handle all number inputs
+    // number inputs
     else {
 
 			if ($secondaryInput.text().includes('=')) {
-
 				$primaryInput.text(userVal);
 				$secondaryInput.text(userVal)
 				CALC_ARR = [userVal];
-
 			}
-
 
       // if operator is being used
       else if ($primaryInput.text() === '+' || $primaryInput.text() === '-' || $primaryInput.text() === '×' || $primaryInput.text() === '÷') {
@@ -143,7 +137,8 @@ $(function() {
           $secondaryInput.append(userVal);
           CALC_ARR.push(userVal);
         }
-      }
+			}
+			
       else {
         $primaryInput.append(userVal);
         $secondaryInput.append(userVal);
