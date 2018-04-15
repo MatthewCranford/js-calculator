@@ -42,7 +42,6 @@ $(function() {
 			}
 		});
 		
-
 		if (
 			formattedArr[formattedArr.length-1] !== '+'
 			&& formattedArr[formattedArr.length-1] !== '-'
@@ -61,24 +60,18 @@ $(function() {
   // removes last entries made to secondary input
   function clearEntry(valToClear) {
 		
-
     for(let i = CALC_ARR.length -1; i>=0; i--) {
-
-			
-      if (
-				CALC_ARR[i] === valToClear
-			) { 
+      if (CALC_ARR[i] === valToClear) { 
 				CALC_ARR.pop();   
 				break;
       } 
     }           
 	}
 	
+
 	function clearLastEntry() {
 		
     for(let i = CALC_ARR.length -1; i>=0; i--) {
-
-			
       if (
 				CALC_ARR[i] === '+'
 				|| CALC_ARR[i] === '-' 
@@ -90,6 +83,7 @@ $(function() {
 			CALC_ARR.pop();
     } 
 	}
+
 
   // handle all user inputs
   function addInput(event) {
@@ -116,6 +110,12 @@ $(function() {
 				$primaryInput.text('0');
 				$secondaryInput.text(CALC_ARR.join(''));
 			}
+
+			else if ( $secondaryInput.text().includes('=') ) {
+				clearEntry($primaryInput.text())
+				$primaryInput.text('0');
+				$secondaryInput.text('0');
+			}
 		
 			else if (
 				$secondaryInput.text().includes('+')
@@ -134,7 +134,6 @@ $(function() {
 				$primaryInput.text('0');
 				$secondaryInput.text('0');
 			}
-			
 		}
 
 		else if ( userVal === '.') {
@@ -174,7 +173,6 @@ $(function() {
           if(userVal === '=') {
 
 						const total = calculate(CALC_ARR)
-
 						console.log('total',total);
 						if (total) {
 							$primaryInput.text(total);
@@ -185,8 +183,6 @@ $(function() {
 							console.log('false');
 						}
 					
-						
-            
           }
           else if (
 						CALC_ARR[CALC_ARR.length-1] !== '+' 
