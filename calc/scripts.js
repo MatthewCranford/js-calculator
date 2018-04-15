@@ -78,7 +78,13 @@ $(function() {
       clearEntry()
     }
     // operator inputs
-    else if (userVal === '+' || userVal === '-' || userVal === '×' || userVal === '÷' || userVal === '=') {
+    else if (
+			userVal === '+' 
+			|| userVal === '-' 
+			|| userVal === '×' 
+			|| userVal === '÷' 
+			|| userVal === '=' 
+		) {
 
 			if ($secondaryInput.text().includes('=')) {
 				if (userVal === '=') {
@@ -107,6 +113,11 @@ $(function() {
           }
         } 
       } 
+		}
+
+		else if ( userVal === '.') {
+			$primaryInput.prepend(userVal);
+			CALC_ARR.splice(-1,1, $primaryInput.text());
 		}
 		
     // number inputs
@@ -146,10 +157,7 @@ $(function() {
       } 
     }
     console.log(CALC_ARR)
- 
   }
 
-  
   $('.button').click('click', addInput);
-
 });
