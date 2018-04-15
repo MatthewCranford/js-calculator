@@ -45,23 +45,41 @@ $(function() {
     return eval(formattedArr.join(''));
   }
 
+
   // removes last entries made to secondary input
-  function clearEntry() {
+  function clearEntry(valToClear) {
+		
 
     for(let i = CALC_ARR.length -1; i>=0; i--) {
 
+			
       if (
-				CALC_ARR[i] === '+' 
+				CALC_ARR[i] === valToClear
+			) { 
+				CALC_ARR.pop();   
+				break;
+      } 
+    }           
+	}
+	
+	function clearLastEntry() {
+		
+    for(let i = CALC_ARR.length -1; i>=0; i--) {
+
+			
+      if (
+				CALC_ARR[i] === '+'
 				|| CALC_ARR[i] === '-' 
 				|| CALC_ARR[i] === '×' 
-				|| CALC_ARR[i] === '÷'
-			) {
-        break;
-      }
-      CALC_ARR.pop();
-    }
-  }
+				|| CALC_ARR[i] === '÷' 
+			) {  
+				break;	
+			} 
+			CALC_ARR.pop();
+    } 
+	}
 
+  // handle all user inputs
   function addInput(event) {
 
     const userVal = event.currentTarget.innerHTML
@@ -72,11 +90,41 @@ $(function() {
       $secondaryInput.text('0')
       CALC_ARR = [];
 		}
+
     // clear primary input
     else if (userVal === 'CE') {
-      $primaryInput.text('0');
-      clearEntry()
-    }
+
+			if (
+				$primaryInput.text() === '+' 
+				|| $primaryInput.text() === '-' 
+				|| $primaryInput.text() === '×' 
+				|| $primaryInput.text() === '÷'
+			) {
+				CALC_ARR.pop();
+				$primaryInput.text('0');
+				$secondaryInput.text(CALC_ARR.join(''));
+			}
+		
+			else if (
+				$secondaryInput.text().includes('+')
+				|| $secondaryInput.text().includes('-')
+				|| $secondaryInput.text().includes('×')
+				|| $secondaryInput.text().includes('÷')
+			) {	
+				console.log('HEY!')
+				clearLastEntry();
+				$primaryInput.text('0');
+				$secondaryInput.text(CALC_ARR.join(''));
+			}
+
+			else {
+				clearEntry($primaryInput.text())
+				$primaryInput.text('0');
+				$secondaryInput.text('0');
+			}
+			
+		}
+		
     // operator inputs
     else if (
 			userVal === '+' 
@@ -137,22 +185,39 @@ $(function() {
       }
       else if ($primaryInput.text() === '0') {
 
-        // check if anything is stored in secondary input
+        // reset
         if ($secondaryInput.text() === '0') {
           $primaryInput.text(userVal);
           $secondaryInput.text(userVal);
           CALC_ARR.push(userVal);
-        }
+				}
+				
+				// update primary input after CE"ing" operator
+        else if (
+					$secondaryInput.text().includes('+')
+					|| $secondaryInput.text().includes('-')
+					|| $secondaryInput.text().includes('×')
+					|| $secondaryInput.text().includes('÷')
+				) {	
+					console.log('HEY!')
+					$primaryInput.text(userVal);
+					CALC_ARR.push(userVal);
+				
+				}
+				
         else {
-          $primaryInput.text(userVal);
-          $secondaryInput.append(userVal);
+		
+					$primaryInput.text($secondaryInput.text()).append(userVal);
+					$secondaryInput.append(userVal)
           CALC_ARR.push(userVal);
         }
 			}
 			
+			
       else {
+		
         $primaryInput.append(userVal);
-        $secondaryInput.append(userVal);
+				$secondaryInput.append(userVal)
         CALC_ARR.push(userVal);
       } 
     }
