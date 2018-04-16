@@ -86,18 +86,26 @@ $(function() {
 
 
   // handle all user inputs
-  function addInput(event) {
+  function handleInput(event) {
 
     const userVal = event.currentTarget.innerHTML
 	
-    // clear calc
+		// console.log($primaryInput.text().length)
+
+		// if($primaryInput.text().length + 1 === 5) {
+		// 	$primaryInput.text('ERROR');
+    //   $secondaryInput.text('ERROR')
+		// }
+
+    // AC - clear calc
     if (userVal === 'AC') {
       $primaryInput.text('0');
       $secondaryInput.text('0')
       CALC_ARR = [];
 		}
 
-    // clear last entry
+
+    // CE - clear last entry
     else if (userVal === 'CE') {
 
 			if (
@@ -136,12 +144,28 @@ $(function() {
 			}
 		}
 
-		else if ( userVal === '.') {
-			$primaryInput.prepend(userVal);
-			CALC_ARR.splice(-1,1, $primaryInput.text());
+
+		// . 
+		else if (userVal === '.') {
+
+			if (!($primaryInput.text().includes('.'))) {
+
+				if ($secondaryInput.text().includes('=')) {
+					$primaryInput.text('0' + userVal);
+					$secondaryInput.text('0' + userVal)
+					CALC_ARR = ['0' + userVal];
+				}
+				else {
+					console.log($primaryInput.text().includes('.'));
+					$primaryInput.append(userVal);
+					$secondaryInput.append(userVal);
+					CALC_ARR.splice(-1,1, $primaryInput.text());
+				}	
+			}	
 		}
 		
-    // operator inputs
+
+    // operators
     else if (
 			userVal === '+' 
 			|| userVal === '-' 
@@ -159,21 +183,17 @@ $(function() {
 				CALC_ARR.push(userVal);
 			}
 			
-      // check that number was passed first
       else if ($secondaryInput.text() !== '0') {
 
-        // check that an operator isn't already active
         if (
 					$primaryInput.text() !== '+' 
 					&& $primaryInput.text() !== '-'
 					&& $primaryInput.text() !== '×' 
 					&& $primaryInput.text() !== '÷'
 				) {
-					console.log(CALC_ARR[CALC_ARR.length-1])
           if(userVal === '=') {
-
 						const total = calculate(CALC_ARR)
-						console.log('total',total);
+		
 						if (total) {
 							$primaryInput.text(total);
 							$secondaryInput.append(userVal+total);
@@ -182,7 +202,6 @@ $(function() {
 						else {
 							console.log('false');
 						}
-					
           }
           else if (
 						CALC_ARR[CALC_ARR.length-1] !== '+' 
@@ -198,7 +217,8 @@ $(function() {
       } 
 		}
 		
-    // number inputs
+
+    // numbers
     else {
 
 			if ($secondaryInput.text().includes('=')) {
@@ -207,7 +227,6 @@ $(function() {
 				CALC_ARR = [userVal];
 			}
 
-      // if operator is being used
       else if (
 				$primaryInput.text() === '+' 
 				|| $primaryInput.text() === '-' 
@@ -221,14 +240,12 @@ $(function() {
 			
       else if ($primaryInput.text() === '0') {
 
-        // reset
-        if ($secondaryInput.text() === '0') {
+        if ($secondaryInput.text() === '0') { 
           $primaryInput.text(userVal);
           $secondaryInput.text(userVal);
           CALC_ARR.push(userVal);
 				}
 				
-				// update primary input after CE"ing" operator
         else if (
 					$secondaryInput.text().includes('+')
 					|| $secondaryInput.text().includes('-')
@@ -252,9 +269,8 @@ $(function() {
         CALC_ARR.push(userVal);
       } 
 		}
-		
     console.log(CALC_ARR)
 	}
 	
-  $('.button').click('click', addInput);
+  $('.button').click('click', handleInput);
 });
