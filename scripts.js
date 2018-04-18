@@ -272,5 +272,5 @@ $(function() {
     console.log(CALC_ARR)
 	}
 	
-  $('.button').click('click', handleInput);
+  $('.calc__button').click('click', handleInput);
 });
