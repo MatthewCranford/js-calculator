@@ -148,12 +148,23 @@ $(function() {
 		// . 
 		else if (userVal === '.') {
 
-			if (!($primaryInput.text().includes('.'))) {
+			// 1 decimal per calculation limit
+			if (!($primaryInput.text().includes('.'))) { 
 
 				if ($secondaryInput.text().includes('=')) {
 					$primaryInput.text('0' + userVal);
-					$secondaryInput.text('0' + userVal)
+					$secondaryInput.text('0' + userVal);
 					CALC_ARR = ['0' + userVal];
+				}
+				else if (	
+					$primaryInput.text() === '+' 
+					|| $primaryInput.text() === '-'
+					|| $primaryInput.text() === '×' 
+					|| $primaryInput.text() === '÷'
+				) {
+					$primaryInput.text('0' + userVal);
+					$secondaryInput.append('0' + userVal);
+					CALC_ARR.push('0' + userVal);
 				}
 				else {
 					console.log($primaryInput.text().includes('.'));
@@ -233,16 +244,19 @@ $(function() {
 				|| $primaryInput.text() === '×' 
 				|| $primaryInput.text() === '÷'
 			) {
-          $primaryInput.text(userVal);
+				if (userVal !== '0') {
+					$primaryInput.text(userVal);
           $secondaryInput.append(userVal);
           CALC_ARR.push(userVal);
+				}
+         
 			}
 			
       else if ($primaryInput.text() === '0') {
 
         if ($secondaryInput.text() === '0') { 
           $primaryInput.text(userVal);
-          $secondaryInput.text(userVal);
+					$secondaryInput.text(userVal);
           CALC_ARR.push(userVal);
 				}
 				
