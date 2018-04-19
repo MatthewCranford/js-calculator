@@ -92,12 +92,21 @@ $(function() {
 	
 		// console.log($primaryInput.text().length)
 
-		// if($primaryInput.text().length + 1 === 5) {
-		// 	$primaryInput.text('ERROR');
-    //   $secondaryInput.text('ERROR')
-		// }
+		if ($secondaryInput.text() === 'Digit Limit Met') {
+			$primaryInput.text('0');
+      $secondaryInput.text('0')
+      CALC_ARR = [];
+		}
 
-    // AC - clear calc
+		if ($primaryInput.text().length === 10) {
+			$primaryInput.text('0');
+			$secondaryInput.text('Digit Limit Met')
+			return false;
+		}
+
+	
+
+    // clear calc
     if (userVal === 'AC') {
       $primaryInput.text('0');
       $secondaryInput.text('0')
@@ -105,7 +114,7 @@ $(function() {
 		}
 
 
-    // CE - clear last entry
+    // clear last entry
     else if (userVal === 'CE') {
 
 			if (
@@ -145,7 +154,7 @@ $(function() {
 		}
 
 
-		// . 
+		// decimal
 		else if (userVal === '.') {
 
 			// 1 decimal per calculation limit
