@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/MatthewCranford/js-calculator/issues"
   },
-  "homepage": "https://github.com/MatthewCranford/js-calculator#readme"
+  "homepage": "https://github.com/MatthewCranford/js-calculator#readme",
+  "devDependencies": {
+    "eslint": "^4.19.1"
+  }
 }
