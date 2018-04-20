@@ -23,7 +23,7 @@ $(function() {
   const $nine = $('#nine');
 
 
-  // global holds numbers for calculation
+  // GLOBAL holds numbers for calculation
   let CALC_ARR = [];
 
 	
@@ -53,24 +53,14 @@ $(function() {
 			return eval(formattedArr.join(''));
 		 }
 		 return false;
-    
   }
 
 
   // removes last entries made to secondary input
-  function clearEntry(valToClear) {
-		
-    for(let i = CALC_ARR.length -1; i>=0; i--) {
-      if (CALC_ARR[i] === valToClear) { 
-				CALC_ARR.pop();   
-				break;
-      } 
-    }           
-	}
-	
-
 	function clearLastEntry() {
 		
+		let entryCleared = false;
+
     for(let i = CALC_ARR.length -1; i>=0; i--) {
       if (
 				CALC_ARR[i] === '+'
@@ -78,10 +68,39 @@ $(function() {
 				|| CALC_ARR[i] === '×' 
 				|| CALC_ARR[i] === '÷' 
 			) {  
+				if (entryCleared) {
 				break;	
 			} 
+				else {
 			CALC_ARR.pop();
+					break;
     } 
+	}
+			CALC_ARR.pop();
+			entryCleared = true;
+    } 
+	}
+
+
+	function clearInput(input) {
+		input.text('0');
+	}
+
+
+	function clearAllInputs() {
+		clearInput($primaryInput);
+		clearInput($secondaryInput);
+	}
+
+
+	function setInputText(input, inputText) {
+		input.text(inputText);
+	}
+
+
+	function ResetCalc() {
+		CALC_ARR = [];
+		clearAllInputs();
 	}
 
 
@@ -90,66 +109,46 @@ $(function() {
 
     const userVal = event.currentTarget.innerHTML
 	
-		// console.log($primaryInput.text().length)
-
+		// clear max input error and start new
 		if ($secondaryInput.text() === 'Digit Limit Met') {
-			$primaryInput.text('0');
-      $secondaryInput.text('0')
-      CALC_ARR = [];
+			ResetCalc();
 		}
 
+		// max input limit reached
 		if ($primaryInput.text().length === 10) {
-			$primaryInput.text('0');
-			$secondaryInput.text('Digit Limit Met')
+			clearInput($primaryInput);
+			setInputText($secondaryInput, 'Digit Limit Met');
 			return false;
 		}
 
-	
-
     // clear calc
     if (userVal === 'AC') {
-      $primaryInput.text('0');
-      $secondaryInput.text('0')
-      CALC_ARR = [];
+			ResetCalc();
 		}
 
 
-    // clear last entry
+    // clear entry
     else if (userVal === 'CE') {
 
-			if (
-				$primaryInput.text() === '+' 
-				|| $primaryInput.text() === '-' 
-				|| $primaryInput.text() === '×' 
-				|| $primaryInput.text() === '÷'
-			) {
-				CALC_ARR.pop();
-				$primaryInput.text('0');
-				$secondaryInput.text(CALC_ARR.join(''));
-			}
-
-			else if ( $secondaryInput.text().includes('=') ) {
-				clearEntry($primaryInput.text())
-				$primaryInput.text('0');
-				$secondaryInput.text('0');
+			// reset if calculation complete
+			if ($secondaryInput.text().includes('=')) {
+				ResetCalc();
 			}
 		
+			// clear last entry
 			else if (
 				$secondaryInput.text().includes('+')
 				|| $secondaryInput.text().includes('-')
 				|| $secondaryInput.text().includes('×')
 				|| $secondaryInput.text().includes('÷')
 			) {	
-				console.log('HEY!')
 				clearLastEntry();
-				$primaryInput.text('0');
-				$secondaryInput.text(CALC_ARR.join(''));
+				clearInput($primaryInput);
+				setInputText($secondaryInput, CALC_ARR.join(''));
 			}
 
 			else {
-				clearEntry($primaryInput.text())
-				$primaryInput.text('0');
-				$secondaryInput.text('0');
+				ResetCalc();
 			}
 		}
 
@@ -160,11 +159,14 @@ $(function() {
 			// 1 decimal per calculation limit
 			if (!($primaryInput.text().includes('.'))) { 
 
+				// reset with decimal if calculation complete
 				if ($secondaryInput.text().includes('=')) {
 					$primaryInput.text('0' + userVal);
 					$secondaryInput.text('0' + userVal);
 					CALC_ARR = ['0' + userVal];
 				}
+
+				// starting next entry with decimal
 				else if (	
 					$primaryInput.text() === '+' 
 					|| $primaryInput.text() === '-'
@@ -175,13 +177,36 @@ $(function() {
 					$secondaryInput.append('0' + userVal);
 					CALC_ARR.push('0' + userVal);
 				}
+
+				// add decimal to end of current input
 				else {
-					console.log($primaryInput.text().includes('.'));
 					$primaryInput.append(userVal);
 					$secondaryInput.append(userVal);
-					CALC_ARR.splice(-1,1, $primaryInput.text());
+					CALC_ARR.push(userVal);
 				}	
 			}	
+		}
+
+		// calculate
+		else if (userVal === '=') {
+
+			// reject a 2nd calculation 
+			if ($secondaryInput.text().includes('=')) {	
+				return false;
+			}
+
+			else {
+				try {
+					const total = calculate(CALC_ARR);
+					$primaryInput.text(total);
+					$secondaryInput.append(userVal+total);
+					CALC_ARR = [total.toString()];
+				}
+	
+				catch(error) {
+					console.log(error);
+				}
+			}
 		}
 		
 
@@ -191,13 +216,11 @@ $(function() {
 			|| userVal === '-' 
 			|| userVal === '×' 
 			|| userVal === '÷' 
-			|| userVal === '=' 
 		) {
 
+			// reset calc previous calculation
 			if ($secondaryInput.text().includes('=')) {
-				if (userVal === '=') {
-					return false;
-				}
+		
 				$primaryInput.text(userVal);
 				$secondaryInput.text(CALC_ARR).append(userVal);
 				CALC_ARR.push(userVal);
@@ -205,25 +228,14 @@ $(function() {
 			
       else if ($secondaryInput.text() !== '0') {
 
-        if (
-					$primaryInput.text() !== '+' 
-					&& $primaryInput.text() !== '-'
-					&& $primaryInput.text() !== '×' 
-					&& $primaryInput.text() !== '÷'
-				) {
-          if(userVal === '=') {
-						const total = calculate(CALC_ARR)
-		
-						if (total) {
-							$primaryInput.text(total);
-							$secondaryInput.append(userVal+total);
-							CALC_ARR = [total.toString()];
-						}
-						else {
-							console.log('false');
-						}
-          }
-          else if (
+        // if (
+				// 	$primaryInput.text() !== '+' 
+				// 	&& $primaryInput.text() !== '-'
+				// 	&& $primaryInput.text() !== '×' 
+				// 	&& $primaryInput.text() !== '÷'
+				// ) {
+        //   }
+          if (
 						CALC_ARR[CALC_ARR.length-1] !== '+' 
 						&& CALC_ARR[CALC_ARR.length-1] !== '-'
 						&& CALC_ARR[CALC_ARR.length-1] !== '×' 
@@ -235,7 +247,7 @@ $(function() {
           }
         } 
       } 
-		}
+		
 		
 
     // numbers
@@ -276,6 +288,8 @@ $(function() {
 					|| $secondaryInput.text().includes('÷')
 				) {	
 					$primaryInput.text(userVal);
+					$secondaryInput.append(userVal);
+
 					CALC_ARR.push(userVal);
 				}
 				
