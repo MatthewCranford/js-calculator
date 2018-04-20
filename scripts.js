@@ -176,7 +176,13 @@ $(function() {
     else if (userVal === '=') {
 
       // reject a 2nd calculation 
-      if ($secondaryInput.text().includes('=')) {	
+      if (
+        $secondaryInput.text().includes('=') 
+        || $primaryInput.text() === '+'
+        || $primaryInput.text() === '-'
+        || $primaryInput.text() === '×'
+        || $primaryInput.text() === '÷'
+      ) {	
         return false;
       }
 
@@ -188,9 +194,8 @@ $(function() {
           $secondaryInput.append(userVal+total);
           CALC_ARR = [total.toString()];
         }
-  
         catch(error) {
-          console.log(error);
+          $primaryInput.text(error);
         }
       }
     }
@@ -204,25 +209,24 @@ $(function() {
       || userVal === '÷' 
     ) {
 
-      // reset calc previous calculation
+      // add operator to calculation result
       if ($secondaryInput.text().includes('=')) {
         $primaryInput.text(userVal);
         $secondaryInput.text((CALC_ARR).join('')).append(userVal);
         CALC_ARR.push(userVal);
       }
       
-      else if ($secondaryInput.text() !== '0') {
-
-        if (
-          CALC_ARR[CALC_ARR.length-1] !== '+' 
-          && CALC_ARR[CALC_ARR.length-1] !== '-'
-          && CALC_ARR[CALC_ARR.length-1] !== '×' 
-          && CALC_ARR[CALC_ARR.length-1] !== '÷'
-        ) {
-          $primaryInput.text(userVal);
-          $secondaryInput.append(userVal);
-          CALC_ARR.push(userVal);
-        }
+      // add operator
+      else if (
+        $secondaryInput.text() !== '0'
+        && $primaryInput.text() !== '+' 
+        && $primaryInput.text() !== '-'
+        && $primaryInput.text() !== '×'
+        && $primaryInput.text() !== '÷'
+      ) {
+        $primaryInput.text(userVal);
+        $secondaryInput.append(userVal);
+        CALC_ARR.push(userVal);
       } 
     } 
     
