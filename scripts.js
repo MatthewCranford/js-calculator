@@ -67,6 +67,34 @@ $(function() {
   }
 
 
+  // find and return string of last CALC_ARRAY entry
+  function getLastEntry() {
+
+    let lastEntry = [];
+
+    for(let i = CALC_ARR.length -1; i>=0; i--) {
+      if (
+        CALC_ARR[i] === '+'
+        || CALC_ARR[i] === '-' 
+        || CALC_ARR[i] === '×' 
+        || CALC_ARR[i] === '÷' 
+      ) {  
+  
+        if (lastEntry.length > 0) {
+          return lastEntry.join('');  
+        }
+        else {
+          return CALC_ARR[i];
+        }
+        
+      } 
+      lastEntry.unshift(CALC_ARR[i]);
+      
+    }
+    return lastEntry.join('');
+  }
+
+
   function clearInput(input) {
     input.text('0');
   }
@@ -120,7 +148,7 @@ $(function() {
         ResetCalc();
       }
     
-      // clear last entry
+      // clear last entry if more than 1 entry exist
       else if (
         $secondaryInput.text().includes('+')
         || $secondaryInput.text().includes('-')
@@ -128,8 +156,22 @@ $(function() {
         || $secondaryInput.text().includes('÷')
       ) {	
         clearLastEntry();
+        const currentLastEntry = getLastEntry();
+     
+        // set primaryInput based on lastEntry
+        if (
+          currentLastEntry === '+'
+          || currentLastEntry === '-'
+          || currentLastEntry === '×'
+          || currentLastEntry === '÷'
+        ) {
         clearInput($primaryInput);
         setInputText($secondaryInput, CALC_ARR.join(''));
+        }
+        else {
+          $primaryInput.text(currentLastEntry);
+          setInputText($secondaryInput, CALC_ARR.join(''));
+      }
       }
 
       else {
