@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/MatthewCranford/js-calculator#readme",
   "devDependencies": {
+    "@types/jquery": "^3.3.1",
     "eslint": "^4.19.1"
   }
 }

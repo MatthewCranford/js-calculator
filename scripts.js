@@ -1,26 +1,11 @@
+//@ts-check
+
 $(function() {
 
   // jQuery selectors
   const $primaryInput = $('#primary-input');
   const $secondaryInput = $('#secondary-input');
-  const $ac = $('#ac');
-  const $ce = $('#ce');
-  const $divide = $('#divide');
-  const $multiply = $('#multiply');
-  const $minus = $('#minus');
-  const $plus = $('#plus');
-  const $equal = $('#equal');
-  const $decimal = $('#decimal');
-  const $zero = $('#zero');
-  const $one = $('#one');
-  const $two = $('#two');
-  const $three = $('#three');
-  const $four = $('#four');
-  const $five = $('#five');
-  const $six = $('#six');
-  const $seven = $('#seven');
-  const $eight = $('#eight');
-  const $nine = $('#nine');
+  
 
 
   // GLOBAL holds numbers for calculation
@@ -47,12 +32,12 @@ $(function() {
       && formattedArr[formattedArr.length-1] !== '-'
       && formattedArr[formattedArr.length-1] !== '*'
       && formattedArr[formattedArr.length-1] !== '/'
-     ) {
-      console.log(formattedArr[formattedArr.length-1])
+    ) {
+      console.log(formattedArr[formattedArr.length-1]);
       console.log(eval(formattedArr.join('')));
       return eval(formattedArr.join(''));
-     }
-     return false;
+    }
+    return false;
   }
 
 
@@ -69,13 +54,13 @@ $(function() {
         || CALC_ARR[i] === '÷' 
       ) {  
         if (entryCleared) {
-        break;	
-      } 
+          break;	
+        } 
         else {
-      CALC_ARR.pop();
+          CALC_ARR.pop();
           break;
-    } 
-  }
+        } 
+      }
       CALC_ARR.pop();
       entryCleared = true;
     } 
@@ -107,7 +92,7 @@ $(function() {
   // handle all user inputs
   function handleInput(event) {
 
-    const userVal = event.currentTarget.innerHTML
+    const userVal = event.currentTarget.innerHTML;
   
     // clear max input error and start new
     if ($secondaryInput.text() === 'Digit Limit Met') {
@@ -222,7 +207,7 @@ $(function() {
       // reset calc previous calculation
       if ($secondaryInput.text().includes('=')) {
         $primaryInput.text(userVal);
-        $secondaryInput.text(CALC_ARR).append(userVal);
+        $secondaryInput.text((CALC_ARR).join('')).append(userVal);
         CALC_ARR.push(userVal);
       }
       
@@ -239,7 +224,7 @@ $(function() {
           CALC_ARR.push(userVal);
         }
       } 
-      } 
+    } 
     
     
 
@@ -248,7 +233,7 @@ $(function() {
 
       if ($secondaryInput.text().includes('=')) {
         $primaryInput.text(userVal);
-        $secondaryInput.text(userVal)
+        $secondaryInput.text(userVal);
         CALC_ARR = [userVal];
       }
 
@@ -288,18 +273,18 @@ $(function() {
         
         else {
           $primaryInput.text($secondaryInput.text()).append(userVal);
-          $secondaryInput.append(userVal)
+          $secondaryInput.append(userVal);
           CALC_ARR.push(userVal);
         }
       }
       
       else {
         $primaryInput.append(userVal);
-        $secondaryInput.append(userVal)
+        $secondaryInput.append(userVal);
         CALC_ARR.push(userVal);
       } 
     }
-    console.log(CALC_ARR)
+    console.log(CALC_ARR);
   }
   
   $('.calc__button').click('click', handleInput);
