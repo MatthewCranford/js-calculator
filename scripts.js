@@ -116,6 +116,9 @@ $(function() {
   }
 
 
+
+
+
   // handle all user inputs
   function handleInput(event) {
 
@@ -133,7 +136,6 @@ $(function() {
       setInputText($secondaryDisplay, 'Digit Limit Met');
       return false;
     }
-
 
     // clear calc
     if (userInput === 'AC') {
