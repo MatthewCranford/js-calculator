@@ -3,8 +3,8 @@
 $(function() {
 
   // jQuery selectors
-  const $primaryInput = $('#primary-input');
-  const $secondaryInput = $('#secondary-input');
+  const $primaryDisplay = $('#primary-input');
+  const $secondaryDisplay = $('#secondary-input');
   
 
 
@@ -33,15 +33,14 @@ $(function() {
       && formattedArr[formattedArr.length-1] !== '*'
       && formattedArr[formattedArr.length-1] !== '/'
     ) {
-      console.log(formattedArr[formattedArr.length-1]);
-      console.log(eval(formattedArr.join('')));
+      console.log('Calculation',eval(formattedArr.join('')));
       return eval(formattedArr.join(''));
     }
     return false;
   }
 
 
-  // removes last entries made to secondary input
+  // remove last entry made to CALC_ARRAY
   function clearLastEntry() {
     
     let entryCleared = false;
@@ -101,8 +100,8 @@ $(function() {
 
 
   function clearAllInputs() {
-    clearInput($primaryInput);
-    clearInput($secondaryInput);
+    clearInput($primaryDisplay);
+    clearInput($secondaryDisplay);
   }
 
 
@@ -120,40 +119,42 @@ $(function() {
   // handle all user inputs
   function handleInput(event) {
 
-    const userVal = event.currentTarget.innerHTML;
+    const userInput = event.currentTarget.innerHTML;
+    const maxDisplayLength = 10;
   
     // clear max input error and start new
-    if ($secondaryInput.text() === 'Digit Limit Met') {
+    if ($secondaryDisplay.text() === 'Digit Limit Met') {
       ResetCalc();
     }
 
     // max input limit reached
-    if ($primaryInput.text().length === 10) {
-      clearInput($primaryInput);
-      setInputText($secondaryInput, 'Digit Limit Met');
+    if ($primaryDisplay.text().length === maxDisplayLength) {
+      clearInput($primaryDisplay);
+      setInputText($secondaryDisplay, 'Digit Limit Met');
       return false;
     }
 
+
     // clear calc
-    if (userVal === 'AC') {
+    if (userInput === 'AC') {
       ResetCalc();
     }
 
-
+    
     // clear entry
-    else if (userVal === 'CE') {
+    else if (userInput === 'CE') {
 
       // reset if calculation complete
-      if ($secondaryInput.text().includes('=')) {
+      if ($secondaryDisplay.text().includes('=')) {
         ResetCalc();
       }
     
       // clear last entry if more than 1 entry exist
       else if (
-        $secondaryInput.text().includes('+')
-        || $secondaryInput.text().includes('-')
-        || $secondaryInput.text().includes('×')
-        || $secondaryInput.text().includes('÷')
+        $secondaryDisplay.text().includes('+')
+        || $secondaryDisplay.text().includes('-')
+        || $secondaryDisplay.text().includes('×')
+        || $secondaryDisplay.text().includes('÷')
       ) {	
         clearLastEntry();
         const currentLastEntry = getLastEntry();
@@ -165,13 +166,13 @@ $(function() {
           || currentLastEntry === '×'
           || currentLastEntry === '÷'
         ) {
-        clearInput($primaryInput);
-        setInputText($secondaryInput, CALC_ARR.join(''));
+          clearInput($primaryDisplay);
+          setInputText($secondaryDisplay, CALC_ARR.join(''));    
         }
         else {
-          $primaryInput.text(currentLastEntry);
-          setInputText($secondaryInput, CALC_ARR.join(''));
-      }
+          $primaryDisplay.text(currentLastEntry);
+          setInputText($secondaryDisplay, CALC_ARR.join(''));
+        }
       }
 
       else {
@@ -181,49 +182,50 @@ $(function() {
 
 
     // decimal
-    else if (userVal === '.') {
+    else if (userInput === '.') {
 
-      // 1 decimal per calculation limit
-      if (!($primaryInput.text().includes('.'))) { 
+      // limit 1 decimal per entry 
+      if (!($primaryDisplay.text().includes('.'))) { 
 
         // reset with decimal if calculation complete
-        if ($secondaryInput.text().includes('=')) {
-          $primaryInput.text('0' + userVal);
-          $secondaryInput.text('0' + userVal);
-          CALC_ARR = ['0' + userVal];
+        if ($secondaryDisplay.text().includes('=')) {
+          $primaryDisplay.text('0' + userInput);
+          $secondaryDisplay.text('0' + userInput);
+          CALC_ARR = ['0' + userInput];
         }
 
         // starting next entry with decimal
         else if (	
-          $primaryInput.text() === '+' 
-          || $primaryInput.text() === '-'
-          || $primaryInput.text() === '×' 
-          || $primaryInput.text() === '÷'
+          $primaryDisplay.text() === '+' 
+          || $primaryDisplay.text() === '-'
+          || $primaryDisplay.text() === '×' 
+          || $primaryDisplay.text() === '÷'
         ) {
-          $primaryInput.text('0' + userVal);
-          $secondaryInput.append('0' + userVal);
-          CALC_ARR.push('0' + userVal);
+          $primaryDisplay.text('0' + userInput);
+          $secondaryDisplay.append('0' + userInput);
+          CALC_ARR.push('0' + userInput);
         }
 
         // add decimal to end of current input
         else {
-          $primaryInput.append(userVal);
-          $secondaryInput.append(userVal);
-          CALC_ARR.push(userVal);
+          $primaryDisplay.append(userInput);
+          $secondaryDisplay.append(userInput);
+          CALC_ARR.push(userInput);
         }	
       }	
     }
 
+
     // calculate
-    else if (userVal === '=') {
+    else if (userInput === '=') {
 
       // reject a 2nd calculation 
       if (
-        $secondaryInput.text().includes('=') 
-        || $primaryInput.text() === '+'
-        || $primaryInput.text() === '-'
-        || $primaryInput.text() === '×'
-        || $primaryInput.text() === '÷'
+        $secondaryDisplay.text().includes('=') 
+        || $primaryDisplay.text() === '+'
+        || $primaryDisplay.text() === '-'
+        || $primaryDisplay.text() === '×'
+        || $primaryDisplay.text() === '÷'
       ) {	
         return false;
       }
@@ -232,12 +234,12 @@ $(function() {
 
         try {
           const total = calculate(CALC_ARR);
-          $primaryInput.text(total);
-          $secondaryInput.append(userVal+total);
+          $primaryDisplay.text(total);
+          $secondaryDisplay.append(userInput+total);
           CALC_ARR = [total.toString()];
         }
         catch(error) {
-          $primaryInput.text(error);
+          $primaryDisplay.text('error');
         }
       }
     }
@@ -245,93 +247,98 @@ $(function() {
 
     // operators
     else if (
-      userVal === '+' 
-      || userVal === '-' 
-      || userVal === '×' 
-      || userVal === '÷' 
+      userInput === '+' 
+      || userInput === '-' 
+      || userInput === '×' 
+      || userInput === '÷' 
     ) {
 
       // add operator to calculation result
-      if ($secondaryInput.text().includes('=')) {
-        $primaryInput.text(userVal);
-        $secondaryInput.text((CALC_ARR).join('')).append(userVal);
-        CALC_ARR.push(userVal);
+      if ($secondaryDisplay.text().includes('=')) {
+        $primaryDisplay.text(userInput);
+        $secondaryDisplay.text((CALC_ARR).join('')).append(userInput);
+        CALC_ARR.push(userInput);
       }
       
       // add operator
       else if (
-        $secondaryInput.text() !== '0'
-        && $primaryInput.text() !== '+' 
-        && $primaryInput.text() !== '-'
-        && $primaryInput.text() !== '×'
-        && $primaryInput.text() !== '÷'
+        $secondaryDisplay.text() !== '0'
+        && $primaryDisplay.text() !== '+' 
+        && $primaryDisplay.text() !== '-'
+        && $primaryDisplay.text() !== '×'
+        && $primaryDisplay.text() !== '÷'
       ) {
-        $primaryInput.text(userVal);
-        $secondaryInput.append(userVal);
-        CALC_ARR.push(userVal);
+        $primaryDisplay.text(userInput);
+        $secondaryDisplay.append(userInput);
+        CALC_ARR.push(userInput);
       } 
     } 
     
     
-
     // numbers
     else {
 
-      if ($secondaryInput.text().includes('=')) {
-        $primaryInput.text(userVal);
-        $secondaryInput.text(userVal);
-        CALC_ARR = [userVal];
+      // reset with user input after calculation
+      if ($secondaryDisplay.text().includes('=')) {
+        $primaryDisplay.text(userInput);
+        $secondaryDisplay.text(userInput);
+        CALC_ARR = [userInput];
       }
 
-      else if (
-        $primaryInput.text() === '+' 
-        || $primaryInput.text() === '-' 
-        || $primaryInput.text() === '×' 
-        || $primaryInput.text() === '÷'
-      ) {
-        if (userVal !== '0') {
-          $primaryInput.text(userVal);
-          $secondaryInput.append(userVal);
-          CALC_ARR.push(userVal);
-        }
-         
-      }
-      
-      else if ($primaryInput.text() === '0') {
+      // on startup or after CE
+      else if ($primaryDisplay.text() === '0') {
 
-        if ($secondaryInput.text() === '0') { 
-          $primaryInput.text(userVal);
-          $secondaryInput.text(userVal);
-          CALC_ARR.push(userVal);
+        // replace default 0s with inputs
+        if (
+          $secondaryDisplay.text() === '0' 
+          && userInput !== '0'
+        ) { 
+          $primaryDisplay.text(userInput);
+          $secondaryDisplay.text(userInput);
+          CALC_ARR.push(userInput);
         }
         
+        // append to last entries after CE
         else if (
-          $secondaryInput.text().includes('+')
-          || $secondaryInput.text().includes('-')
-          || $secondaryInput.text().includes('×')
-          || $secondaryInput.text().includes('÷')
+          $secondaryDisplay.text().includes('+')
+          || $secondaryDisplay.text().includes('-')
+          || $secondaryDisplay.text().includes('×')
+          || $secondaryDisplay.text().includes('÷')
         ) {	
-          $primaryInput.text(userVal);
-          $secondaryInput.append(userVal);
+          if (userInput !== '0') {
+            $primaryDisplay.text(userInput);
+            $secondaryDisplay.append(userInput);
+            CALC_ARR.push(userInput);
+          } 
+        }
+      }
 
-          CALC_ARR.push(userVal);
-        }
-        
-        else {
-          $primaryInput.text($secondaryInput.text()).append(userVal);
-          $secondaryInput.append(userVal);
-          CALC_ARR.push(userVal);
-        }
+      // clear operator and display current input
+      else if (
+        $primaryDisplay.text() === '+' 
+        || $primaryDisplay.text() === '-' 
+        || $primaryDisplay.text() === '×' 
+        || $primaryDisplay.text() === '÷'
+      ) {
+
+        // prevent starting zeros
+        if (userInput !== '0') {
+          $primaryDisplay.text(userInput);
+          $secondaryDisplay.append(userInput);
+          CALC_ARR.push(userInput);
+        } 
       }
       
       else {
-        $primaryInput.append(userVal);
-        $secondaryInput.append(userVal);
-        CALC_ARR.push(userVal);
+        $primaryDisplay.append(userInput);
+        $secondaryDisplay.append(userInput);
+        CALC_ARR.push(userInput);
       } 
     }
-    console.log(CALC_ARR);
+
+    console.log('CALC_ARR',CALC_ARR);
   }
   
   $('.calc__button').click('click', handleInput);
+
 });
