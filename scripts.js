@@ -266,14 +266,15 @@ $(function() {
         CALC_ARR.push(userInput);
       }
       
-      // add operator
+      // add operator if calc not reset and operator not in use
       else if (
         $secondaryDisplay.text() !== '0'
-        && $primaryDisplay.text() !== '+' 
-        && $primaryDisplay.text() !== '-'
-        && $primaryDisplay.text() !== '×'
-        && $primaryDisplay.text() !== '÷'
+        && CALC_ARR[CALC_ARR.length-1] !== '+' 
+        && CALC_ARR[CALC_ARR.length-1] !== '-'
+        && CALC_ARR[CALC_ARR.length-1] !== '×'
+        && CALC_ARR[CALC_ARR.length-1] !== '÷'
       ) {
+        
         $primaryDisplay.text(userInput);
         $secondaryDisplay.append(userInput);
         CALC_ARR.push(userInput);
