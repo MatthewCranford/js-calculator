@@ -85,32 +85,34 @@ $(function() {
         else {
           return CALC_ARR[i];
         }
-        
       } 
       lastEntry.unshift(CALC_ARR[i]);
-      
     }
     return lastEntry.join('');
   }
 
 
   function clearInput(input) {
+
     input.text('0');
   }
 
 
   function clearAllInputs() {
+
     clearInput($primaryDisplay);
     clearInput($secondaryDisplay);
   }
 
 
-  function setInputText(input, inputText) {
-    input.text(inputText);
+  function setSecondaryDisplayEntries() {
+
+    $secondaryDisplay.text(CALC_ARR.join('')); 
   }
 
 
   function ResetCalc() {
+
     CALC_ARR = [];
     clearAllInputs();
   }
@@ -128,6 +130,7 @@ $(function() {
     if ($secondaryDisplay.text() === 'Digit Limit Met') {
       ResetCalc();
     }
+
 
     // clear calc
     if (userInput === 'AC') {
@@ -161,11 +164,11 @@ $(function() {
           || currentLastEntry === '÷'
         ) {
           clearInput($primaryDisplay);
-          setInputText($secondaryDisplay, CALC_ARR.join(''));    
+          setSecondaryDisplayEntries();    
         }
         else {
           $primaryDisplay.text(currentLastEntry);
-          setInputText($secondaryDisplay, CALC_ARR.join(''));
+          setSecondaryDisplayEntries();
         }
       }
 
@@ -337,7 +340,7 @@ $(function() {
       || $secondaryDisplay[0].scrollWidth >  $secondaryDisplay.innerWidth() 
     ) {
       clearInput($primaryDisplay);
-      setInputText($secondaryDisplay, 'Digit Limit Met');
+      $secondaryDisplay.text('Digit Limit Met');
     }
 
     console.log('CALC_ARR',CALC_ARR);
