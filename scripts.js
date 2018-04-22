@@ -33,8 +33,13 @@ $(function() {
       && formattedArr[formattedArr.length-1] !== '*'
       && formattedArr[formattedArr.length-1] !== '/'
     ) {
-      console.log('Calculation',eval(formattedArr.join('')));
-      return eval(formattedArr.join('')).toFixed(2);
+      const total = eval(formattedArr.join(''));
+      if (total % 1 === 0) {
+        return total;
+      }
+      else {
+        return total.toFixed(2);
+      }
     }
     return false;
   }
