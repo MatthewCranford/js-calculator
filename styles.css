@@ -33,7 +33,7 @@ body, html {
 	border: 1px solid #7e7e7e;
 }
 
-  .calc__display__primary {
+  .calc__display--primary {
     margin: 0;
 		font-size: 3rem;
 		display: flex;
@@ -41,7 +41,7 @@ body, html {
 		justify-content: flex-end;
   }
 
-  .calc__display__secondary {
+  .calc__display--secondary {
     margin: 0;
   
     padding: 0 0 .5rem 0;
@@ -67,7 +67,7 @@ body, html {
     transform: translateY(5px);
   }
 
-  .calc__button__equal {
+  .calc__button--equal {
     border-radius: 8px;
     padding: 56px 0px;
   }

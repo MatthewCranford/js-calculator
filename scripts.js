@@ -3,8 +3,8 @@
 $(function() {
 
   // jQuery selectors
-  const $primaryDisplay = $('#primary-input');
-  const $secondaryDisplay = $('#secondary-input');
+  const $primaryDisplay = $('.calc__display--primary');
+  const $secondaryDisplay = $('.calc__display--secondary');
   
 
 
@@ -123,7 +123,8 @@ $(function() {
   function handleInput(event) {
 
     const userInput = event.currentTarget.innerHTML;
-    const maxDisplayLength = 10;
+    const maxPrimaryDisplayLength = 12;
+    const maxSecondaryDisplayLength = 22;
   
     // clear max input error and start new
     if ($secondaryDisplay.text() === 'Digit Limit Met') {
@@ -131,7 +132,10 @@ $(function() {
     }
 
     // max input limit reached
-    if ($primaryDisplay.text().length === maxDisplayLength) {
+    if (
+      $primaryDisplay.text().length === maxPrimaryDisplayLength
+      || $secondaryDisplay.text().length === maxSecondaryDisplayLength 
+    ) {
       clearInput($primaryDisplay);
       setInputText($secondaryDisplay, 'Digit Limit Met');
       return false;
