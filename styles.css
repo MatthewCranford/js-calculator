@@ -34,23 +34,23 @@ body, html {
 		background-color: #f5eede7a;
 		border: 1px solid #7e7e7e;
 		border-radius: 10px;
-		overflow: hidden;
+
 	}
 		.calc__display--primary {
 			margin: 0;
 			font-size: 3rem;
-			display: flex;
-			flex-wrap: nowrap;
-			justify-content: flex-end;
+			text-align: end;
+
 		}
 		.calc__display--secondary {
 			margin: 0;
 			padding: 0 0 .5rem 0;
 			font-size: 1.5rem;
 			color: #686565b7;
-			display: flex;
-			flex-wrap: nowrap;
-			justify-content: flex-end;
+			text-align: end;
+	
+
+		
 		}
   .calc__button {
     background-color: rgb(41, 41, 41);

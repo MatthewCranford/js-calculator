@@ -123,22 +123,10 @@ $(function() {
   function handleInput(event) {
 
     const userInput = event.currentTarget.innerHTML;
-    const maxPrimaryDisplayLength = 12;
-    const maxSecondaryDisplayLength = 22;
-  
+
     // clear max input error and start new
     if ($secondaryDisplay.text() === 'Digit Limit Met') {
       ResetCalc();
-    }
-
-    // max input limit reached
-    if (
-      $primaryDisplay.text().length === maxPrimaryDisplayLength
-      || $secondaryDisplay.text().length === maxSecondaryDisplayLength 
-    ) {
-      clearInput($primaryDisplay);
-      setInputText($secondaryDisplay, 'Digit Limit Met');
-      return false;
     }
 
     // clear calc
@@ -341,6 +329,15 @@ $(function() {
         $secondaryDisplay.append(userInput);
         CALC_ARR.push(userInput);
       } 
+    }
+
+    // text overflown
+    if (
+      $primaryDisplay[0].scrollWidth >  $primaryDisplay.innerWidth() 
+      || $secondaryDisplay[0].scrollWidth >  $secondaryDisplay.innerWidth() 
+    ) {
+      clearInput($primaryDisplay);
+      setInputText($secondaryDisplay, 'Digit Limit Met');
     }
 
     console.log('CALC_ARR',CALC_ARR);
