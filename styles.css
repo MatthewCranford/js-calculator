@@ -78,17 +78,9 @@ body, html {
     margin: auto;
     top: 50%;
     padding-bottom: 55px;
-    margin-top: 100px;
-  }
-
-	.calc__display {
-		background-color: #f5eede7a;
-		margin-bottom: 1.5rem;
-		border-radius: 10px;
-		padding: 0 1rem;
-		overflow: hidden;
-		border: 1px solid #7e7e7e;
+		margin-top: 75px;
 	}
+	
  }
 
 /* // Medium devices (tablets, 768px and up) */
