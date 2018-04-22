@@ -34,7 +34,7 @@ $(function() {
       && formattedArr[formattedArr.length-1] !== '/'
     ) {
       console.log('Calculation',eval(formattedArr.join('')));
-      return eval(formattedArr.join(''));
+      return eval(formattedArr.join('')).toFixed(2);
     }
     return false;
   }
