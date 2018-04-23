@@ -20,27 +20,27 @@ body, html {
 	border: #808080 2px solid;
 	border-radius: 18px;
 	box-shadow: 8px 10px 20px 5px #16161685, inset 0 0 10px black;
+
 }
 	.calc__title {
-		padding-top: 1.5rem;
+		padding-top: 1rem;
 		font-size: 1.5rem;
 		font-weight: 500;
 		color: #242424;
+
 	}
 	.calc__display {
 		height: 125px;
 		padding: 0 1rem;
-		margin-bottom: 2.5rem;
+		margin-bottom: 1.5rem;
 		background-color: #f5eede7a;
 		border: 1px solid #7e7e7e;
 		border-radius: 10px;
-
 	}
 		.calc__display--primary {
 			margin: 0;
 			font-size: 3rem;
 			text-align: end;
-
 		}
 		.calc__display--secondary {
 			margin: 0;
@@ -48,9 +48,6 @@ body, html {
 			font-size: 1.5rem;
 			color: #686565b7;
 			text-align: end;
-	
-
-		
 		}
   .calc__button {
     background-color: rgb(41, 41, 41);
