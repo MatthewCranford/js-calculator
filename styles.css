@@ -1,8 +1,14 @@
 
+/* * {
+	margin: 0;
+	padding: 0;
+} */
+
 body, html {
   text-align: center;
   background-color: #494949;
-  height: 100%;
+	height: 100%;
+
 }
 
 .padding {
@@ -63,26 +69,66 @@ body, html {
 		.calc__button--equal {
 			border-radius: 8px;
 			padding: 60px 0px;
+	
 		}
 
 
 /* // Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
 
+	.container {
+		max-width: 100%;
+	}
+
+	.calc__container {
+    width: 100%;
+    height: 100%;
+	}
+		.calc__title {
+			padding-top: .2rem;
+			font-size: 0;
+		}
+		.calc__display {
+			height: 70px;
+			margin-bottom: 0.5rem;
+		}
+			.calc__display--secondary {
+				display: none;
+			}
+		.calc__button {
+			padding: 5px 0px;
+		}
+	
+	
+
+/* // Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) { 
   .calc__container {
     width: 400px;
     height: auto;
-    margin: auto;
+    margin: auto;               
     top: 50%;
     padding-bottom: 55px;
 		margin-top: 75px;
 	}
-	
+	.calc__title {
+		padding-top: 1rem;
+		font-size: 1.5rem;
+	}
+	.calc__display {
+		height: 125px;
+		margin-bottom: 1.5rem;
+	}
+		.calc__display--secondary {
+			display: block;
+		}
+		.calc__button {
+			padding: 20px 0px;
+		}
+		.calc__button--equal {
+			padding: 60px 0px;
+		}
  }
-
-/* // Medium devices (tablets, 768px and up) */
-@media (min-width: 768px) { 
-  
  }
 
 /* // Large devices (desktops, 992px and up) */
